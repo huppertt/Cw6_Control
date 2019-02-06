@@ -1,0 +1,45 @@
+Sample Probe Geometry
+
+#Start with "!Description" Header
+!Description:
+This is the DLPF probe
+
+
+#Start with "geometry" Header
+!Geometry:
+NumSrc = 4
+NumDet = 8
+
+DetPos 1 = [0 0 0];
+DetPos 2 = [0 -3.5 0];
+DetPos 3 = [0 -7 0];
+
+DetPos 4 = [6.5 0 0];
+DetPos 5 = [6.5 -3.5 0];
+DetPos 6 = [6.5 -7 0];
+
+
+SrcPos 1 = [3.25 -1.75 0];
+SrcPos 2 = [3.25 -5.25 0];
+
+SrcPos 3 = [9.75 -1.75 0];
+SrcPos 4 = [9.75 -5.25 0];
+
+
+#Define the laser/source mapping
+!Laser Map:
+Laser S1-L1L2
+Laser S2-L3L4
+Laser S3-L5L6
+Laser S4-L7L8
+
+
+
+#Define the measurement combinations
+!Measurement Map:
+NumStates = 1
+State 1
+measurement S1-D1D2D4D5
+measurement S2-D2D3D5D6
+measurement S3-D4D5
+measurement S4-D5D6

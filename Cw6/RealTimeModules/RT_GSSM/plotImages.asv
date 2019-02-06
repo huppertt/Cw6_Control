@@ -1,0 +1,78 @@
+function plotImages
+
+handles=guihandles(findobj('tag','GSSM_Figure'));
+GSSM_data=get(handles.GSSM_Figure,'Userdata');
+SD=GSSM_data.SD;
+Medium=GSSM_data.Medium;
+
+time=GSSM_data.time;
+
+if(isempty(time))
+
+    im=-GSSM_data.Ainv*zeros(size(GSSM_data.Ainv,2),1);
+    lmax=.1;
+    lmin=-.1;
+    HbO=reshape(im(1:end/2),length(GSSM_data.Medium.CompVol.X),length(GSSM_data.Medium.CompVol.Y));
+    axes(handles.ImageHbR);
+    hold on;
+    cla;
+    axis xy
+    imagesc(Medium.CompVol.X, Medium.CompVol.Y,HbO,[lmin lmax]);
+
+    for idxS=1:size(SD.SrcPos,1)
+        t=text( SD.SrcPos(idxS,1), SD.SrcPos(idxS,2), sprintf('x%d', idxS) );
+        set(t,'FontSize',12);
+    end
+    for idxD=1:size(SD.DetPos,1)
+        t=text( SD.DetPos(idxD,1), SD.DetPos(idxD,2), sprintf('o%d', idxD) );
+         set(t,'FontSize',12);
+    end
+    axes(handles.ImageHbO);
+    hold on;
+    cla
+    axis xy
+    imagesc(Medium.CompVol.X, Medium.CompVol.Y,HbO,[lmin lmax]);
+
+    for idxS=1:size(SD.SrcPos,1)
+        t=text( SD.SrcPos(idxS,1), SD.SrcPos(idxS,2), sprintf('x%d', idxS) );
+         set(t,'FontSize',12);
+    end
+    for idxD=1:size(SD.DetPos,1)
+        t=text( SD.DetPos(idxD,1), SD.DetPos(idxD,2), sprintf('o%d', idxD) );
+         set(t,'FontSize',12);
+    end
+    return;
+end
+
+if(isempty(GSSM_data.stim))
+    return
+end
+
+numberstim=2;
+dt=3;
+if(length(GSSM_data.stim
+lststim=find(diff([0 GSSM_data.stim])>dt);
+lst2=find(GSSM_data.stim >= GSSM_data.stim(lststim(end-numberstim+1)));
+
+lst=find(time>min(GSSM_data.stim(lst2)) & time<max(GSSM_data.stim(lst2))+5);
+
+if(isempty(lst))
+    return;
+end
+data=mean(GSSM_data.data(:,lst),2);
+
+im=-GSSM_data.Ainv*data;
+
+lmax=max(abs(im(:)));
+lmin=-lmax;
+
+HbO=reshape(im(1:end/2),length(GSSM_data.Medium.CompVol.X),length(GSSM_data.Medium.CompVol.Y));
+HbR=reshape(im(end/2+1:end),length(GSSM_data.Medium.CompVol.X),length(GSSM_data.Medium.CompVol.Y));
+
+c=get(handles.ImageHbO,'children');
+set(c(end),'CData',HbO);
+caxis(handles.ImageHbO,[lmin lmax]);
+
+c=get(handles.ImageHbR,'children');
+set(c(end),'CData',HbR)
+caxis(handles.ImageHbR,[lmin lmax]);

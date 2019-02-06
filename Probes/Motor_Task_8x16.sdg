@@ -1,0 +1,68 @@
+Sample Probe Geometry
+
+#Start with "!Description" Header
+!Description:
+This is the 6x6 forehead probe
+
+
+#Start with "geometry" Header
+!Geometry:
+NumSrc = 8
+NumDet = 16
+
+DetPos 1 = [0 0  0];
+DetPos 2 = [0 2 0];
+DetPos 3 = [0 4 0];
+DetPos 4 = [-6 0 0];
+DetPos 5 = [-6 2 0];
+DetPos 6 = [-6 4 0];
+DetPos 7 = [-2 10  0];
+DetPos 8 = [-5.5 6.5  0];
+
+
+
+DetPos 9 = [-17 0  0];
+DetPos 10 = [-17 2 0];
+DetPos 11 = [-17 4 0];
+DetPos 12 = [-11 0 0];
+DetPos 13 = [-11 2 0];
+DetPos 14 = [-11 4 0];
+DetPos 15 = [-10.5 6.5  0];
+DetPos 16 = [-14 10  0];
+
+
+SrcPos 1 = [-3 1 0];
+SrcPos 2 = [-3 3 0];
+SrcPos 3 = [-2 6.5 0];
+SrcPos 4 = [-5.5 10 0];
+
+SrcPos 5 = [-14 1 0];
+SrcPos 6 = [-14 3 0];
+SrcPos 7 = [-14 6.5 0];
+SrcPos 8 = [-10.5 10 0];
+
+#Define the laser/source mapping
+!Laser Map:
+Laser S1-L1L2
+Laser S2-L3L4
+Laser S3-L5L6
+Laser S4-L7L8
+Laser S5-L9L10
+Laser S6-L11L12
+Laser S7-L13L14
+Laser S8-L15L16
+
+
+
+#Define the measurement combinations
+!Measurement Map:
+NumStates = 1
+State 1
+measurement S1-D1D2D4D5
+measurement S2-D5D2D6D3
+measurement S3-D7D8
+measurement S4-D7D8
+measurement S5-D9D10D12D13
+measurement S6-D13D10D11D14
+measurement S7-D15D16
+measurement S8-D15D16

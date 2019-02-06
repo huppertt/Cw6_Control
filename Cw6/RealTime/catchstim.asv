@@ -1,0 +1,48 @@
+function stim=catchstim(stim,auxdata,time)
+
+persistent meanstimchan;
+persistent MSEstimchan;
+persistent count;
+
+if(isempty(auxdata))
+    meanstimchan=0;
+    MSEstimchan=0;
+    count=ones(5,1);
+    return
+end
+
+stiminfo=get(findobj('tag','setup_stim'),'Userdata');
+if(isempty(stiminfo) | ~isfield(stiminfo,'usestim'))
+    stiminfo.usestim=1;
+end
+
+if(size(auxdata,1)==1), auxdata=auxdata'; end;
+auxdata=abs(auxdata);
+
+for idx=1:length(stiminfo.usestim)
+disp(auxdata)
+stimchannel=auxdata(stiminfo.usestim(idx),:);
+
+lst=find(abs(stimchannel-meanstimchan)>200*sqrt(MSEstimchan)/count(idx))
+disp([abs(stimchannel-meanstimchan) sqrt(MSEstimchan)/count(idx)])
+if(~isempty(lst) & time(1)>3)
+   if(~isempty(stim{idx}))
+        if(time-stim{idx}(end)>3)
+            NumberStimuliText=findobj('tag','NumberStimuliText');
+            numStim=str2num(get(NumberStimuliText,'string'));
+            set(NumberStimuliText,'string',num2str(numStim+1));
+        end
+    else
+        NumberStimuliText=findobj('tag','NumberStimuliText');
+        numStim=str2num(get(NumberStimuliText,'string'));
+        set(NumberStimuliText,'string',num2str(numStim+1));
+   end
+ 
+    stim{idx}=[stim{idx} time(lst)'];
+else
+    meanstimchan=(meanstimchan*count(idx)+mean(stimchannel))/(count(idx)+1);
+    MSEstimchan=(MSEstimchan+(mean(stimchannel)-meanstimchan)^2);
+    count(idx)=count(idx)+1;
+end
+
+end

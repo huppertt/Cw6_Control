@@ -1,0 +1,23 @@
+function reset_gssmGUI
+
+global 
+
+handles=guihandles(findobj('tag','GSSM_Figure'));
+GSSM_data=get(handles.GSSM_Figure,'Userdata');
+GSSM_data.data=[];
+GSSM_data.beta=[];
+GSSM_data.time=[];
+GSSM_data.stim=[];
+set(handles.GSSM_Figure,'Userdata',GSSM_data);
+plot_GSSM_SDG;
+
+
+if(get(handles.SendToRemote,'value'))
+    filename=get(handles.RemoteFolderName,'string');
+   fopen(filename,'w');
+   
+   
+   fprintf(fid,'%s
+   
+   fclose(filename);
+end

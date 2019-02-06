@@ -1,0 +1,16 @@
+function sendremote(data,beta,stimNum,time,filename)
+
+global remoteChannels;
+
+fid=fopen(filename,'a');
+
+fprintf(fid,'\n%f',time);
+fprintf(fid,'\n%f',time);
+
+   for idx=1:length(remoteChannels)
+       d=mean(data(remoteChannels{idx}));
+       fprintf(fid,'\t%f',d);
+   end
+fclose(fid);
+
+return

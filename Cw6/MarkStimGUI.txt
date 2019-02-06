@@ -1,0 +1,49 @@
+MarkStimGUI Documentation
+
+Functionality resides in MarkStimGUI.m
+
+LayOutFcn.m lines 536 - 548
+	Added Menu Item under Paradigm for calling MarkStimGUI
+
+% -- Added by Davneet -- 09/10/10 -------------------
+
+appdata = [];
+appdata.lastValidTag = 'menuMarkStimGUI';
+
+h99 = uimenu(...
+'Parent', h19, ...
+'Callback', 'Cw6(''menuMarkStimGUI_Callback'',gcbo,[],guidata(gcbo))', ...
+'Label', 'Mark Stimuli', ...
+'Tag', 'menuMarkStimGUI', ...
+'CreateFcn', {@local_CreateFcn, blanks(0), appdata} );
+
+% ---------------------------------------------------
+
+cw6.m lines 1014 - 1024
+	Added call to MarkStimGUI
+
+% --------------------------------------------------------------------
+function menuMarkStimGUI_Callback(hObject, eventdata, handles)
+% hObject    handle to menuMarkStimGUI (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Added 09/03/10 Davneet
+numStim = 5; % Placeholder for importing number of stimuli from cw6.cfg
+handles.markStim = MarkStimGUI(numStim);
+guidata(hObject, handles);
+
+
+
+TODO:
+
+1) Actually read time from cw6figure
+
+   DONE -- NOT TESTED
+
+2) Load MarkStimGUI options from .cfg
+
+3) Save Data from MarkStimGUI to Cw6_data.data.MarkStim (will take care of saving)
+   Modify Cw6_BackEnd StartAQ_Callback appropriately (DONE - Cw6_BackEnd.m line 145-6)
+
+   DONE -- NOT TESTED (Cw6_BackEnd.m line 145-6 & MarkStimGUI lines 266)

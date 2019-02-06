@@ -1,0 +1,46 @@
+Sample Probe Geometry
+
+#Start with "!Description" Header
+!Description:
+This is the 6x6 forehead probe
+
+
+#Start with "geometry" Header
+!Geometry:
+NumSrc = 3
+NumDet = 8
+
+DetPos 1 = [0 0 0];
+DetPos 2 = [3 0 0];
+DetPos 3 = [6 0 0];
+DetPos 4 = [9 0 0];
+DetPos 5 = [0 -4 0];
+DetPos 6 = [3 -4 0];
+DetPos 7 = [6 -4 0];
+DetPos 8 = [9 -4 0];
+
+
+SrcPos 1 = [1.5 -2 0];
+SrcPos 2 = [4.5 -2 0];
+SrcPos 3 = [7.5 -2 0];
+
+
+
+
+#Define the laser/source mapping
+!Laser Map:
+Laser S1-L1L2
+Laser S2-L3L4
+Laser S3-L5L6
+
+
+
+
+
+#Define the measurement combinations
+!Measurement Map:
+NumStates = 1
+State 1
+measurement S1-D1D5D2D6
+measurement S2-D2D3D6D7
+measurement S3-D3D4D7D8

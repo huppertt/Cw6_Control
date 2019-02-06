@@ -1,0 +1,40 @@
+﻿  Copying license file...
+          1 file(s) copied.
+  64 bit Processing .\Cw6Control_activex.odl
+  Cw6Control_activex.odl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\oaidl.idl
+  oaidl.idl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\objidl.idl
+  objidl.idl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\unknwn.idl
+  unknwn.idl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\wtypes.idl
+  wtypes.idl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\wtypesbase.idl
+  wtypesbase.idl
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\basetsd.h
+  basetsd.h
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\guiddef.h
+  guiddef.h
+  64 bit Processing C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\oaidl.acf
+  oaidl.acf
+  StdAfx.cpp
+  _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+  Cw6Control_activex.cpp
+  Cw6Control_activexCtl.cpp
+c:\cw6_control\drivers\activex\cw6control_activex\readthread.h(77): warning C4018: '<': signed/unsigned mismatch
+c:\cw6_control\drivers\activex\cw6control_activex\readthread.h(44): warning C4101: 'localchar_error': unreferenced local variable
+c:\cw6_control\drivers\activex\cw6control_activex\cw6_engine.h(442): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+c:\cw6_control\drivers\activex\cw6control_activex\cw6_engine.h(451): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+c:\cw6_control\drivers\activex\cw6control_activex\cw6_engine.h(466): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+c:\cw6_control\drivers\activex\cw6control_activex\cw6_engine.h(574): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+c:\cw6_control\drivers\activex\cw6control_activex\cw6_engine.h(576): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+c:\cw6_control\drivers\activex\cw6control_activex\cw6control_activexctl.cpp(418): warning C4312: 'type cast': conversion from 'ULONG' to 'PVOID' of greater size
+  Cw6Control_activexPpg.cpp
+  TdmStates.cpp
+  Generating Code...
+     Creating library .\x64\Release\Cw6Control_activex.lib and object .\x64\Release\Cw6Control_activex.exp
+  Cw6Control_activex.vcxproj -> C:\Cw6_Control\Drivers\ActiveX\Cw6Control_activex\x64\Release\Cw6Control_activex.ocx
+  Registering ActiveX Control...

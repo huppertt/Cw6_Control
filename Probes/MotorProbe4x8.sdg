@@ -1,0 +1,46 @@
+Sample Probe Geometry
+
+#Start with "!Description" Header
+!Description:
+This is a 4x8 motor probe for testing
+Comment line 2
+
+
+#Start with "geometry" Header
+!Geometry:
+NumSrc = 4
+NumDet = 8
+
+DetPos 1 = [2 -1 0];
+DetPos 2 = [0 -1 0];
+DetPos 3 = [-2 -1 0];
+DetPos 4 = [-4 -1 0];
+
+DetPos 5 = [0 1 0];
+DetPos 6 = [-2 1 0];
+DetPos 7 = [-4 1 0];
+DetPos 8 = [-6 1 0];
+
+SrcPos 1 = [1 0 0];
+SrcPos 2 = [-1 0 0];
+SrcPos 3 = [-3 0 0];
+SrcPos 4 = [-5 0 0];
+
+
+#Define the laser/source mapping
+!Laser Map:
+Laser S1-L1L2
+Laser S2-L3L4
+Laser S3-L5L6
+Laser S4-L7L8
+
+
+
+#Define the measurement combinations
+!Measurement Map:
+NumStates = 1
+State 1
+measurement S1-D1D2D5
+measurement S2-D2D3D5D6
+measurement S3-D3D4D6D7
+measurement S4-D4D7D8
