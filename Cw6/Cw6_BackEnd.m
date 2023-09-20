@@ -146,7 +146,9 @@ Cw6_data.data.aux=[];
 Cw6_data.data.aux_t=[];
 Cw6_data.data.stim={};
 Cw6_data.data.MarkStim={};
-for idx=1:5
+Cw6_data.data.StimDesign=struct('onset',[],'dur',[]);
+for idx=1:6
+    Cw6_data.data.StimDesign(idx)=struct('onset',[],'dur',[]);
     Cw6_data.data.stim{idx}=[];
 end
 Cw6_data.data.X=[];
@@ -322,10 +324,7 @@ elseif(~isfield(system.AQSettings,'Gains'))
     system.AQSettings.Gains=zeros(NUM_DET,1);
 end
 GainsOld=system.AQSettings.Gains;
-%[nPanels,nDet]=size(Javahandles.spinner);
-nPanels=4;
-nDet=8;
-
+[nPanels,nDet]=size(Javahandles.spinner);
 cnt=1;
 
 nDet=min(NUM_DET,nDet);

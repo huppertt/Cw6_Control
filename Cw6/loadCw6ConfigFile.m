@@ -18,7 +18,6 @@ if(~exist('cfgfile'))
     cfgfile=which('cw6.cfg');
 end
 
-EPRIME_DIR=NaN;
 if(isempty(cfgfile))
     %load defaults
     PROBE_DIR='D:\Cw6';

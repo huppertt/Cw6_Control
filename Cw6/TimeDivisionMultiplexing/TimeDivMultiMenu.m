@@ -75,7 +75,7 @@ for idx=1:numStates
     str{idx}=sprintf('%s',['State #' num2str(idx)]);
 end
 
-if(1) %~isfield(system,'TDMSettings') || ~isfield(system.TDMSettings,'LasersOn'))
+if(~isfield(system,'TDMSettings') || ~isfield(system.TDMSettings,'LasersOn'))
     TDMSettings.NumStates=numStates;
     TDMSettings.DwellTimes=zeros(numStates,1);
     TDMSettings.DwellTimes=ones(numStates,1)*str2num(get(handles.DwellTime,'string'));
@@ -107,7 +107,6 @@ if(1) %~isfield(system,'TDMSettings') || ~isfield(system.TDMSettings,'LasersOn')
         LaserLst=SubjInfo.Probe.LaserPos(SrcLst(:),:);
         TDMSettings.LasersOn(LaserLst(:),state)=system.AQSettings.Lasers(LaserLst(:));
         TDMSettings.DetGains(DetLst,state)=Gains(DetLst);
-        TDMSettings.DwellTimes(state)=20;
     end
     
     system.TDMSettings=TDMSettings;

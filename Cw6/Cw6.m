@@ -75,6 +75,7 @@ try
     handles=LayOutFunction(handles);
     
     
+    
     global BOOL_ADJ_LASERS;
     handles=guihandles(handles.cw6figure);
     if(BOOL_ADJ_LASERS)
@@ -151,7 +152,7 @@ try
     set(handles.WindowDataEdit,'ButtonDownFcn','Cw6(''rescale_now_Callback'',gcbo,[],guidata(gcbo))');
     h=uicontrol('Style','pushbutton','tag','rescale_now','visible','off','enable','off');
     
-    if(~isempty(EPRIME_DIR) & ~isnan(EPRIME_DIR))
+    if(~isempty(EPRIME_DIR))
         set(handles.eprime_file_name,'Label',EPRIME_DIR);
     end
     
@@ -173,7 +174,7 @@ return
 
 % --- Executes on button press in WindowData.
 function WindowData_Callback(hObject, eventdata, handles)
-
+plotmainwindow;
 
 
 function WindowDataEdit_Callback(hObject, eventdata, handles)
@@ -266,13 +267,14 @@ if(~strcmp(isrunning(system.MainDevice),'on'))
 end
 Cw6_data = get(handles.cw6figure,'UserData');
 cTpt=Cw6_data.data.raw_t(end);
-Cw6_data.data.stim{end}=[Cw6_data.data.stim{end} cTpt];
+Cw6_data.data.stim{1}=[Cw6_data.data.stim{1} cTpt];
 set(handles.cw6figure,'UserData',Cw6_data);
 
 numStim=str2num(get(handles.NumberStimuliText,'string'));
 set(handles.NumberStimuliText,'string',num2str(numStim+1));
 
 return
+
 
 
 % --------------------------------------------------------------------
@@ -344,12 +346,12 @@ if(~isempty(Cw6_data.data.aux))
     for idx=1:1+size(Cw6_data.data.aux,1)
         str=[str,'%f\t'];
     end
-
+    
     fprintf(fid,'\r\rSTART AUX\r');
-
+    
     str=[str,'\r'];
     fprintf(fid,str,[Cw6_data.data.aux_t; Cw6_data.data.aux]);
-
+    
     fprintf(fid,'\rEND AUX\r\r');
 end
 
@@ -400,8 +402,8 @@ cw6figure=findobj('tag','cw6figure');
 system.cw6info=get(cw6figure,'UserData');
 
 if(~exist('filename'))
-[filename, pathname] = uiputfile('Cw6_System.sys', 'Save System Settings as:');
-filename=[pathname filesep filename];
+    [filename, pathname] = uiputfile('Cw6_System.sys', 'Save System Settings as:');
+    filename=[pathname filesep filename];
 end
 save(filename,'system','-MAT');
 
@@ -451,9 +453,9 @@ cw6figure=findobj('tag','cw6figure');
 set(cw6figure,'UserData',system.cw6info);
 
 if(any(getlaser(system.MainDevice)))
-     set(findobj('tag','LaserLED'),'BackgroundColor','r');
+    set(findobj('tag','LaserLED'),'BackgroundColor','r');
 else
-     set(findobj('tag','LaserLED'),'BackgroundColor',[.6 .6 .6]);
+    set(findobj('tag','LaserLED'),'BackgroundColor',[.6 .6 .6]);
 end
 
 
@@ -624,7 +626,7 @@ timeClickedOn=mean(timeClickedOn(:,1));
 
 stim=[];
 for idx=1:length(Cw6_data.data.stim)
-    stim=[stim Cw6_data.data.stim{idx}]; 
+    stim=[stim Cw6_data.data.stim{idx}];
 end
 
 
@@ -676,7 +678,7 @@ fid=fopen('Comments.txt','a');
 fprintf(fid,'\n****************************************');
 fprintf(fid,'\nComments Added: %s\n\n',datestr(now));
 for idx=1:size(text,1)
-fprintf(fid,'\n%s',text(idx,:));
+    fprintf(fid,'\n%s',text(idx,:));
 end
 fclose(fid);
 
@@ -793,14 +795,14 @@ if ~gui_Create
         while ~isempty(fig) && ~isa(handle(fig),'figure')
             fig = get(fig,'parent');
         end
-
-        designEval = isappdata(0,'CreatingGUIDEFigure') | isprop(fig,'__GUIDEFigure');
+        
+        designEval = isappdata(0,'CreatingGUIDEFigure') || isprop(fig,'__GUIDEFigure');
     end
-
+    
     if designEval
         beforeChildren = findall(fig);
     end
-
+    
     % evaluate the callback now
     varargin{1} = gui_State.gui_Callback;
     if nargout
@@ -808,11 +810,11 @@ if ~gui_Create
     else
         feval(varargin{:});
     end
-
+    
     % Set serializable of objects created in the above callback to off in
     % design time. Need to check whether figure handle is still valid in
     % case the figure is deleted during the callback dispatching.
-    if designEval & ishandle(fig)
+    if designEval && ishandle(fig)
         set(setdiff(findall(fig),beforeChildren), 'Serializable','off');
     end
 else
@@ -821,7 +823,7 @@ else
     else
         gui_SingletonOpt = 'new';
     end
-
+    
     % Check user passing 'visible' P/V pair first so that its value can be
     % used by oepnfig to prevent flickering
     gui_Visible = 'auto';
@@ -830,7 +832,7 @@ else
         if length(varargin) == index || ~ischar(varargin{index})
             break;
         end
-
+        
         % Recognize 'visible' P/V pair
         len1 = min(length('visible'),length(varargin{index}));
         len2 = min(length('off'),length(varargin{index+1}));
@@ -844,11 +846,11 @@ else
             end
         end
     end
-
+    
     % Open fig file with stored settings.  Note: This executes all component
     % specific CreateFunctions with an empty HANDLES structure.
-
-
+    
+    
     % Do feval on layout code in m-file if it exists
     gui_Exported = ~isempty(gui_State.gui_LayoutFcn);
     % this application data is used to indicate the running mode of a GUIDE
@@ -870,21 +872,21 @@ else
         end
     end
     rmappdata(0,genvarname(['OpenGuiWhenRunning_', gui_State.gui_Name]));
-
+    
     % Set flag to indicate starting GUI initialization
     setappdata(gui_hFigure,'InGUIInitialization',1);
-
+    
     % Fetch GUIDE Application options
     gui_Options = getappdata(gui_hFigure,'GUIDEOptions');
     % Singleton setting in the GUI M-file takes priority if different
     gui_Options.singleton = gui_State.gui_Singleton;
-
+    
     if ~isappdata(gui_hFigure,'GUIOnScreen')
         % Adjust background color
-%         if gui_Options.syscolorfig
-%             set(gui_hFigure,'Color', get(0,'DefaultUicontrolBackgroundColor'));
-%         end
-
+        if gui_Options.syscolorfig
+            set(gui_hFigure,'Color', get(0,'DefaultUicontrolBackgroundColor'));
+        end
+        
         % Generate HANDLES structure and store with GUIDATA. If there is
         % user set GUI data already, keep that also.
         data = guidata(gui_hFigure);
@@ -901,32 +903,32 @@ else
         end
         guidata(gui_hFigure, data);
     end
-
+    
     % Apply input P/V pairs other than 'visible'
     for index=1:2:length(varargin)
         if length(varargin) == index || ~ischar(varargin{index})
             break;
         end
-
+        
         len1 = min(length('visible'),length(varargin{index}));
         if ~strncmpi(varargin{index},'visible',len1)
             try set(gui_hFigure, varargin{index}, varargin{index+1}), catch break, end
         end
     end
-
+    
     % If handle visibility is set to 'callback', turn it on until finished
     % with OpeningFcn
     gui_HandleVisibility = get(gui_hFigure,'HandleVisibility');
     if strcmp(gui_HandleVisibility, 'callback')
         set(gui_hFigure,'HandleVisibility', 'on');
     end
-
+    
     feval(gui_State.gui_OpeningFcn, gui_hFigure, [], guidata(gui_hFigure), varargin{:});
-
+    
     if isscalar(gui_hFigure) && ishandle(gui_hFigure)
         % Update handle visibility
         set(gui_hFigure,'HandleVisibility', gui_HandleVisibility);
-
+        
         % Call openfig again to pick up the saved visibility or apply the
         % one passed in from the P/V pairs
         if ~gui_Exported
@@ -936,16 +938,16 @@ else
         end
         if strcmpi(get(gui_hFigure, 'Visible'), 'on')
             figure(gui_hFigure);
-
+            
             if gui_Options.singleton
                 setappdata(gui_hFigure,'GUIOnScreen', 1);
             end
         end
-
+        
         % Done with GUI initialization
         rmappdata(gui_hFigure,'InGUIInitialization');
     end
-
+    
     % If handle visibility is set to 'callback', turn it on until finished with
     % OutputFcn
     if isscalar(gui_hFigure) && ishandle(gui_hFigure)
@@ -957,13 +959,13 @@ else
     else
         gui_Handles = [];
     end
-
+    
     if nargout
         [varargout{1:nargout}] = feval(gui_State.gui_OutputFcn, gui_hFigure, [], gui_Handles);
     else
         feval(gui_State.gui_OutputFcn, gui_hFigure, [], gui_Handles);
     end
-
+    
     if isscalar(gui_hFigure) && ishandle(gui_hFigure)
         set(gui_hFigure,'HandleVisibility', gui_HandleVisibility);
     end

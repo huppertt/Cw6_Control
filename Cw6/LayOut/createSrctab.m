@@ -5,8 +5,7 @@ global MAX_LASER_INTEN;
 
 
 %First make a panel to place the controls into
-%[Javahandles.Jpanel,Javahandles.JpanelCont]=javacomponent(javax.swing.JPanel);
-Javahandles.JpanelCont=uipanel;
+[Javahandles.Jpanel,Javahandles.JpanelCont]=javacomponent(javax.swing.JPanel);
 set(Javahandles.JpanelCont,'Tag','SrcContainer');
 set(Javahandles.JpanelCont,'parent',parent);
 set(Javahandles.JpanelCont,'units','normalized');

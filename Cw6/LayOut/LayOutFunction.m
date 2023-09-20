@@ -95,8 +95,8 @@ pos(4)=pos(4)*.8;
 
 set(handles.TabContainer,'units','normalized');
 %Make Detector Tab
-%[DetTab,DetTabContainer]=javacomponent(javax.swing.JPanel);
-DetTabContainer=uipanel;
+[DetTab,DetTabContainer]=javacomponent(javax.swing.JPanel);
+
 set(DetTabContainer,'units','pixels');
 set(DetTabContainer,'position',pos);
 %set(DetTabContainer,'units','normalized');
@@ -106,8 +106,7 @@ set(DetTabContainer,'UserData',DetJavaHandles);
 
 
 %Make Source Tab
-%[SrcTab,SrcTabContainer]=javacomponent(javax.swing.JPanel);
-SrcTabContainer=uipanel;
+[SrcTab,SrcTabContainer]=javacomponent(javax.swing.JPanel);
 set(SrcTabContainer,'units','pixels');
 set(SrcTabContainer,'position',pos);
 set(SrcTabContainer,'tag','SrcTabContainer');
@@ -117,8 +116,7 @@ set(SrcTabContainer,'units','normalized');
 % 
 % 
 % % %Make Aux Tab Tab
-%[AuxTab,AuxTabContainer]=javacomponent(javax.swing.JPanel);
-AuxTabContainer=uipanel;
+[AuxTab,AuxTabContainer]=javacomponent(javax.swing.JPanel);
 set(AuxTabContainer,'units','pixels');
 set(AuxTabContainer,'position',pos);
 set(AuxTabContainer,'tag','AuxTabContainer');
@@ -161,10 +159,42 @@ set(ProgressBarContainer,'userdata',ProgressBar);
 
 
 
-
+% Create a pushbutton to hide the laser/detector controls
+    hideControls=uicontrol('Style','pushbutton','tag','hidecontrols');
+    set(hideControls,'String','Hide Controls');
+    set(hideControls,'Units','Normalized','Position',[.57 .38 .06 .05]);
+    set(hideControls,'Callback',@hidecontrols);
+    
+    a(1)=Javahandles.Jtabpanelactivex2;
+    a(2)=AuxTabContainer;
+    a(3)=DetTabContainer;
+    a(4)=SrcTabContainer;
+    a(5)=DetJavaHandles.JtabpanelCont;
+    
+    set(hideControls,'UserData',a);
+set(handles.TabContainer,'visible','off')
+set(handles.tabholder1,'visible','off');
 
 return
-
+    
+    
+function hidecontrols(varargin)
+handles=guihandles(gcbo);
+a=get(gcbo,'Userdata');
+if(all(get(gcbo,'Position')==[.57 .38 .06 .05]))
+   set(a,'visible','off');
+   set(gcbo,'Position',[.57 .05 .06 .05]);
+   set(handles.MainPlotWindow,'Position',[0.0611 0.1563  0.5705 0.5377+.3]);
+   set(gcbo,'String','Show Controls');
+else
+    set(a,'visible','on');
+    set(gcbo,'Position',[.57 .38 .06 .05]);
+    set(handles.MainPlotWindow,'Position',[0.0611    0.4563    0.5705    0.5377]);
+    set(gcbo,'String','Hide Controls');
+    us=get(a(3),'userdata')
+    SwitchTabAll(us.Jtabpanel);
+end
+return
 
 function SwitchTabAll(varargin)
 
@@ -179,6 +209,35 @@ SrcTabContainer=findobj('tag','SrcTabContainer');
 AuxTabContainer=findobj('tag','AuxTabContainer');
 
 switch(selectedIdx)
+    case(0)
+         set(DetTabContainer,'visible','off');
+        set(SrcTabContainer,'visible','off');
+        set(AuxTabContainer,'visible','off');
+        set(get(SrcTabContainer,'children'),'visible','off');
+         set(get(AuxTabContainer,'children'),'visible','off');
+          c=get(get(SrcTabContainer,'children'),'children');
+         if(iscell(c)); 
+             c=vertcat(c{:});
+         end
+        
+        set(c,'visible','off');
+%         c=get(get(DetTabContainer,'children'),'children');
+%         set(c,'visible','on');
+  global BOOL_ADJ_LASERS;
+        if(BOOL_ADJ_LASERS)
+            handles=guihandles(findobj('tag','cw6figure'));
+            c(1)=handles.LaserIntenSpinner_1;
+            c(2)=handles.LaserIntenSpinner_2;
+            c(3)=handles.LaserIntenSpinner_3;
+            c(4)=handles.LaserIntenSpinner_4;
+            c(5)=handles.LaserIntenSpinner_5;
+            c(6)=handles.LaserIntenSpinner_6;
+            c(7)=handles.LaserIntenSpinner_7;
+            c(8)=handles.LaserIntenSpinner_8;
+            set(c,'visible','off');
+        end        
+
+
     case(1)
         set(DetTabContainer,'visible','on');
         set(SrcTabContainer,'visible','off');

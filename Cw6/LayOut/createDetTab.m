@@ -9,8 +9,7 @@ f=gcf;
 
 
 %First make a panel to place the controls into
-%[Javahandles.Jpanel,Javahandles.JpanelCont]=javacomponent(javax.swing.JPanel);
-Javahandles.JpanelCont=uipanel;
+[Javahandles.Jpanel,Javahandles.JpanelCont]=javacomponent(javax.swing.JPanel);
 set(Javahandles.JpanelCont,'Tag','DetContainer');
 set(Javahandles.JpanelCont,'parent',parent);
 set(Javahandles.JpanelCont,'units','normalized');
@@ -88,8 +87,7 @@ set(Javahandles.JtabpanelCont,'units','normalized');
    str=['Detectors [' num2str((idx-1)*8+1) '-' num2str((idx)*8) ']' ]; 
    Javahandles.Jtabpanel.add([],str); 
     
- %  [Javahandles.tab(idx),Javahandles.tabcont(idx)]=javacomponent(javax.swing.JPanel);
-   Javahandles.tabcont(idx)=uipanel;
+   [Javahandles.tab(idx),Javahandles.tabcont(idx)]=javacomponent(javax.swing.JPanel);
    set(Javahandles.tabcont(idx),'Tag',['DetPanelCont_' num2str(idx)]);
    set(Javahandles.tabcont(idx),'parent',Javahandles.JpanelCont);
    set(Javahandles.tabcont(idx),'units','normalized');
@@ -98,28 +96,28 @@ set(Javahandles.JtabpanelCont,'units','normalized');
    hlink(idx)=linkprop(Javahandles.tabcont(idx),'visible');
    for Det=1:8
         pos=[.2+(Det-1)*.35/8 .08 0 0];
-        [Javahandles.spinner(idx,Det),Javahandles.spinnerCont(idx,Det)]=javacomponent(javax.swing.JSpinner);%
-       % Javahandles.spinner(idx,Det)=uicomponent('style','JSpinner');
- %       set(Javahandles.spinner(idx,Det),'tag',['DetSpinner_' num2str((idx-1)*8+Det)]);
-        set(Javahandles.spinnerCont(idx,Det),'parent',parent2); %Javahandles.tabcont(idx));
-        set(Javahandles.spinnerCont(idx,Det),'units','normalized');
-        set(Javahandles.spinnerCont(idx,Det),'position',pos);
+  %      [Javahandles.spinner(idx,Det),Javahandles.spinnerCont(idx,Det)]=javacomponent(javax.swing.JSpinner);
+        Javahandles.spinner(idx,Det)=uicomponent('style','JSpinner');
+        set(Javahandles.spinner(idx,Det),'tag',['DetSpinner_' num2str((idx-1)*8+Det)]);
+        set(Javahandles.spinner(idx,Det),'parent',parent2); %Javahandles.tabcont(idx));
+        set(Javahandles.spinner(idx,Det),'units','normalized');
+        set(Javahandles.spinner(idx,Det),'position',pos);
         UserData.type='Spinner';
         UserData.DetNum=8*(idx-1)+Det;              
-        set(Javahandles.spinnerCont(idx,Det),'UserData',UserData);
+        set(Javahandles.spinner(idx,Det),'UserData',UserData);
         set(Javahandles.spinner(idx,Det),'value',0);
         set(Javahandles.spinner(idx,Det),'StateChangedCallback',['GUIChangeDetector_callback('...
              num2str(idx) ',' num2str(Det) ')']);
-         hlink(idx).addtarget(Javahandles.spinnerCont(idx,Det));  
-         set(Javahandles.spinnerCont(idx,Det), 'parent',f,'position',pos+[0 0 .04 .05]);     
+         hlink(idx).addtarget(Javahandles.spinner(idx,Det));  
+         set(Javahandles.spinner(idx,Det), 'parent',f,'position',pos+[0 0 .04 .05]);     
          
-        [Javahandles.slider(idx,Det),Javahandles.sliderCont(idx,Det)]=javacomponent(javax.swing.JSlider);%
-        %Javahandles.slider(idx,Det)=uicomponent('style','JSlider');
-       % set(Javahandles.slider(idx,Det),'tag',['DetSlider_' num2str((idx-1)*8+Det)]);
+         
+        Javahandles.slider(idx,Det)=uicomponent('style','JSlider');
+        set(Javahandles.slider(idx,Det),'tag',['DetSlider_' num2str((idx-1)*8+Det)]);
         set(Javahandles.slider(idx,Det),'orientation',1);
-        set(Javahandles.sliderCont(idx,Det),'parent',parent2); %Javahandles.tabcont(idx));
-        set(Javahandles.sliderCont(idx,Det),'units','normalized');
-        set(Javahandles.sliderCont(idx,Det),'position',pos+[0 .1 0 .6]);
+        set(Javahandles.slider(idx,Det),'parent',parent2); %Javahandles.tabcont(idx));
+        set(Javahandles.slider(idx,Det),'units','normalized');
+        set(Javahandles.slider(idx,Det),'position',pos+[0 .1 0 .6]);
         set(Javahandles.slider(idx,Det),'Value',0);
         set(Javahandles.slider(idx,Det),'Maximum',MAXGAIN);
         set(Javahandles.slider(idx,Det),'Minimum',MINGAIN);
@@ -127,12 +125,12 @@ set(Javahandles.JtabpanelCont,'units','normalized');
             num2str(idx) ',' num2str(Det) ')']);
         set(Javahandles.slider(idx,Det),'MouseWheelMovedCallback',@Slider_mousewheel);
         
-        set(Javahandles.sliderCont(idx,Det), 'parent',f,'position',pos+[0 0.05 .04 .14]); 
+        set(Javahandles.slider(idx,Det), 'parent',f,'position',pos+[0 0.05 .04 .14]); 
             
         UserData.type='Slider';
         UserData.DetNum=8*(idx-1)+Det;              
-        set(Javahandles.sliderCont(idx,Det),'UserData',UserData);
-        hlink(idx).addtarget(Javahandles.sliderCont(idx,Det));   
+        set(Javahandles.slider(idx,Det),'UserData',UserData);
+        hlink(idx).addtarget(Javahandles.slider(idx,Det));   
           
         
         Javahandles.text(idx,Det)=uicontrol('style','text');

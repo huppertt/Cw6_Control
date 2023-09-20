@@ -1,0 +1,67 @@
+function initialize(foo)
+warning('off','daq:daqmex:propertyConfigurationError');
+
+try
+    global NI_Auxdevice;
+
+    NI_Auxdevice.isrunning=false;
+    NI_Auxdevice.SystemType='NI Aux';
+
+    AuxInit='USB-1608FS';
+    info = daqhwinfo('mcc');
+
+    %Try to find this board
+    for c=1:length(info.InstalledBoardIds);
+        if(strcmp(AuxInit,info.BoardNames{c}))
+            AuxID=info.InstalledBoardIds{c};
+            auxflag=1;
+        end
+    end
+
+    if(auxflag==0)
+        warning('unable to initialize auxillary device');
+        return
+    end
+
+
+
+    %% Initialize the instrument
+
+
+
+    %% SAMPLE RATE
+    NI_Auxdevice.auxDAQ=analoginput('mcc',AuxID);
+    addchannel(NI_Auxdevice.auxDAQ,[0:5]);
+    set(NI_Auxdevice.auxDAQ.Channel,'InputRange',[-5 5]);
+    set(NI_Auxdevice.auxDAQ.Channel,'SensorRange',[-5 5]);
+    set(NI_Auxdevice.auxDAQ.Channel,'UnitsRange',[-5 5]);
+
+    set(NI_Auxdevice.auxDAQ,'TransferMode','default')
+    set(NI_Auxdevice.auxDAQ,'BufferingMode','auto')
+
+    
+    set(NI_Auxdevice.auxDAQ, 'TimerFcn',[]);
+    set(NI_Auxdevice.auxDAQ, 'StopFcn',[]);
+
+    set(NI_Auxdevice.auxDAQ, 'TriggerType','immediate');
+    set(NI_Auxdevice.auxDAQ, 'TriggerRepeat',0);
+    set(NI_Auxdevice.auxDAQ, 'ClockSource','internal');
+    set(NI_Auxdevice.auxDAQ, 'timeout',10E-3);
+    %set(nirs.auxDAQ, 'ChannelSkewMode','Equisample');
+    set(NI_Auxdevice.auxDAQ,'Tag','AuxDAQ');
+
+    set(NI_Auxdevice.auxDAQ,'SampleRate',20);
+    NI_Auxdevice.samplerate=20;
+    itmp = fix(5*720);
+    aiinfo = daqhwinfo(NI_Auxdevice.auxDAQ);
+    itmp=ceil(itmp/31)*31;
+    set(NI_Auxdevice.auxDAQ,'SamplesPerTrigger',itmp);
+    set(NI_Auxdevice.auxDAQ,'BufferingMode','Auto')
+    setBufferForPMD(NI_Auxdevice.auxDAQ);
+    set(NI_Auxdevice.auxDAQ,'BufferingConfig',[31 10]);
+
+catch
+    error('Cannot start auxillary device');
+end
+
+return

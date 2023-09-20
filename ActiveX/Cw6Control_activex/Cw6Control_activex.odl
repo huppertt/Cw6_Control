@@ -1,0 +1,78 @@
+// Cw6Control_activex.odl : type library source for ActiveX Control project.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(250D0B4C-D2DF-44F0-8C93-C78949D1E704), version(1.0),
+  helpfile("Cw6Control_activex.hlp"),
+  helpstring("Cw6Control_activex ActiveX Control module"),
+  control ]
+library CW6CONTROL_ACTIVEXLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	[ uuid(8E338152-99B1-41B8-B9F1-569A632E1C0E),
+	  helpstring("Dispatch interface for Cw6Control_activex Control"), hidden ]
+	dispinterface _DCw6Control_activex
+	{
+		properties:
+			//{{AFX_ODL_PROP(CCw6Control_activexCtrl)
+			[id(1)] float isConnected;
+			[id(2)] float isRunning;
+			[id(3)] float samplesAvaliable;
+			//}}AFX_ODL_PROP
+
+		methods:
+			//{{AFX_ODL_METHOD(CCw6Control_activexCtrl)
+			[id(4)] void SetLaserState(float LaserIdx, float LaserState);
+			[id(5)] float GetLaserState(float LaserIdx);
+			[id(6)] void StartDAQ();
+			[id(7)] void StopDAQ();
+			[id(8)] void SetDataRate(float DataRate);
+			[id(9)] float GetDataRate();
+			[id(10)] void SetDwellTime(float DwellTime);
+			[id(11)] float GetDwellTime();
+			[id(12)] void SetState(float StateIdx);
+			[id(13)] void ChangeState(float StateIdx);
+			[id(14)] void SetDetGains(float DetIdx, float DetGain);
+			[id(15)] short AllOff();
+			[id(16)] float GetDetGains();
+			[id(17)] void SetMLAct(float MLidx, float ActBool);
+			[id(18)] float GetDetGain(float DetIdx);
+			[id(19)] void SetUseTDML(float UseTDML);
+			[id(20)] float getUseTDML();
+			[id(21)] void SetTDMLStates();
+			[id(22)] float GetData(float nSamples);
+			[id(23)] float GetSamplesAvaliable();
+			[id(24)] void SetLogToFile(float UseLog);
+			[id(25)] float getNumAux();
+			[id(26)] void AllOn();
+			//}}AFX_ODL_METHOD
+	};
+
+	[ uuid(FB3124E2-5A5B-4736-B2CD-34CEBC26EE21),
+	  helpstring("Event interface for Cw6Control_activex Control") ]
+	dispinterface _DCw6Control_activexEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			//{{AFX_ODL_EVENT(CCw6Control_activexCtrl)
+			[id(1)] void StartCw6();
+			//}}AFX_ODL_EVENT
+	};
+
+	[ uuid(3B1FB2AF-F28F-4DEC-B02C-D61F869003CF), licensed,
+	  helpstring("Cw6Control_activex Control"), control ]
+	coclass Cw6Control_activex
+	{
+		[default] dispinterface _DCw6Control_activex;
+		[default, source] dispinterface _DCw6Control_activexEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

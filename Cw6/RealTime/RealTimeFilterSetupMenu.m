@@ -24,7 +24,7 @@ function varargout = RealTimeFilterSetupMenu(varargin)
 
 % Edit the above text to modify the response to help RealTimeFilterSetupMenu
 
-% Last Modified by GUIDE v2.5 07-Mar-2008 12:59:45
+% Last Modified by GUIDE v2.5 10-Dec-2014 07:44:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -59,6 +59,10 @@ handles.output = hObject;
 guidata(hObject, handles);
 
 handles=guihandles(findobj('tag','RT_SetupMenu'));
+[handles.RichText,handles.RichTextCont]=javacomponent(javax.swing.JEditorPane);
+set(handles.RichTextCont,'Units','normalized','position',[.05 .15 .9 .18])
+set(handles.RT_SetupMenu,'UserData',handles);
+
 AvaliableRTModules_Callback(handles.AvaliableRTModules, [], handles);
 LoadRTModules_Callback(handles.LoadRTModules, [], handles);
 
@@ -68,6 +72,7 @@ return
 % --- Executes on selection change in AvaliableRTModules.
 function AvaliableRTModules_Callback(hObject, eventdata, handles)
 handles=guihandles(findobj('tag','RT_SetupMenu'));
+handles=get(handles.RT_SetupMenu,'UserData');
 
 index=get(handles.AvaliableRTModules,'value');
 modules=get(handles.AvaliableRTModules,'UserData');
@@ -77,11 +82,15 @@ if(isempty(modules))
 end
 
 if(isstruct(modules{end}))
+    
+
     description=' ';
     for idx=1:size(modules{index}.description,1)
         description=sprintf('%s\n%s',description,mat2str(modules{index}.description(idx,:)));
     end
-    set(handles.activex1,'Text',description);
+    %set(handles.activex1,'Text',description);
+    set(handles.RichText,'Text',description);
+    
 end
 
 return

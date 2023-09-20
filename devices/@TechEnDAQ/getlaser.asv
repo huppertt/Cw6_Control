@@ -1,0 +1,15 @@
+function states=getlaser(obj,laser)
+
+if(~exist('laser'))
+    laser=[];
+end
+
+    try
+       states=getgain(obj.system,detIdx); 
+    catch
+        states=[];
+         warning('get laserfailed');
+    end
+
+
+return

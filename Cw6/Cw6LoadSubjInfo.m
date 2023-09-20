@@ -109,8 +109,8 @@ set(Javahandles.slider,'Enabled',1);
 set(Javahandles.spinner,'Enabled',1);
 
 Dets=unique(SubjInfo.Probe.MeasList(:,2));
-for idx=1:4
-    for idx2=1:8
+for idx=1:size(Javahandles.slider,1)
+    for idx2=1:size(Javahandles.slider,2)
         dI=(idx-1)*8+idx2;
         if(~ismember(dI,Dets))
             set(Javahandles.slider(idx,idx2),'Enabled',0);

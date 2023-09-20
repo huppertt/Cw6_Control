@@ -13,10 +13,7 @@ end
 h=waitbar(0,'Adjusting AGC');
 
 
-%[numTabs,numDet]=size(Javahandles.spinner);
-numTabs=4;
-numDet=8;
-
+[numTabs,numDet]=size(Javahandles.spinner);
 
 SubjInfo=get(handles.RegistrationInfo,'UserData');
 SD=SubjInfo.Probe;

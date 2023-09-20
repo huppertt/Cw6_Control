@@ -1,0 +1,16 @@
+function [d,t]=getsamples(foo,numbersamples);
+global NIRS2device;
+
+numbersamples=max([numbersamples 0]);
+d=zeros((NIRS2device.samplechannels+6)*numbersamples,1);
+
+
+for samples=1:numbersamples*(Cw6device.samplechannels+6)
+    d(samples)=Cw6device.instrument.GetData(1);
+end
+d=reshape(d,(Cw6device.samplechannels+6),numbersamples);
+
+t=[Cw6device.lastcalled:Cw6device.lastcalled+numbersamples-1]./Cw6device.instrument.GetDataRate;
+Cw6device.lastcalled=Cw6device.lastcalled+numbersamples;
+
+return

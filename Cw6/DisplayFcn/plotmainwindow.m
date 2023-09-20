@@ -27,10 +27,16 @@ if(isempty(LineHandles))
     LineHandles.raw=zeros(numMeas,1);
     LineHandles.conc=zeros(numMeas,1);
     LineHandles.special=zeros(numMeas,1);
-    c={'r' 'g' 'b' 'c' 'k'};
-    for idx=1:5
+    c={'k' 'r' 'g' 'b' 'c' 'm'};
+    for idx=1:6
         LineHandles.stim(idx)=plot(-10,-10,'color',c{idx},'Linewidth',2,'visible','off');
     end
+    
+    % Blocks for StimDesign
+    for idx=1:6
+        LineHandles.block(idx)=fill([-11 -11 -10 -10 -10],[0 1 1 0 0],c{idx});
+    end
+    
     set(LineHandles.stim,'UIContextMenu',handles.AddCommentTextCM);
     LineHandles.comments=plot(-10,-10,'color','m','Linewidth',6,'visible','off');
     set(LineHandles.comments,'UIContextMenu',handles.AddCommentTextCM);
@@ -81,14 +87,12 @@ else
         else
             set(LineHandles.raw(idx),'visible','off');
         end
-        if(LineHandles.conc(idx)~=0)
-            if(~isempty(find(PlotLst==idx)) & SubjInfo.SDGdisplay.MLAct(idx) & ...
-                    get(handles.WhichDisplay,'value')>length(SD.Lambda) &...
-                    get(handles.WhichDisplay,'value')-length(SD.Lambda)==lambda)
-                set(LineHandles.conc(idx),'visible','on');
-            else
-                set(LineHandles.conc(idx),'visible','off');
-            end
+        if(~isempty(find(PlotLst==idx)) & SubjInfo.SDGdisplay.MLAct(idx) & ...
+                get(handles.WhichDisplay,'value')>length(SD.Lambda) &...
+                get(handles.WhichDisplay,'value')-length(SD.Lambda)==lambda)
+            set(LineHandles.conc(idx),'visible','on');
+        else
+            set(LineHandles.conc(idx),'visible','off');
         end
     end
     
@@ -97,7 +101,7 @@ else
         xd=[Cw6_data.data.stim{idx} Cw6_data.data.stim{idx}-.01 Cw6_data.data.stim{idx}+.01];
         yd=-1000+1E6*[ones(size(Cw6_data.data.stim{idx})) zeros(size(Cw6_data.data.stim{idx}-.05)) zeros(size(Cw6_data.data.stim{idx}+.05))];
 
-        [xd,id]=sort(xd);
+        [xd,id]=sort(abs(xd));
         yd=yd(id);
         set(LineHandles.stim(idx),'Xdata',xd,'Ydata',yd);
     end
@@ -164,6 +168,31 @@ if(get(handles.ShowComments,'value'))
      set(LineHandles.comments,'visible','on');
 else
     set(LineHandles.comments,'visible','off');
+end
+
+
+StimDesign=Cw6_data.data.StimDesign;
+
+
+ymm=max(minY,0)+(maxY-minY)/20;
+
+for idx=1:length(StimDesign)
+    xd=get(LineHandles.block(idx),'Xdata');
+    yd=get(LineHandles.block(idx),'Ydata');
+    yd(end)=[];
+    xd(end)=[];
+    
+    yd=yd/max(yd);
+    for idx2=1:length(StimDesign(idx).onset)
+        if(~ismember(StimDesign(idx).onset(idx2),xd))
+            yd=[yd; 0; 1; 1; 0];
+            xd=[xd; StimDesign(idx).onset(idx2); StimDesign(idx).onset(idx2);...
+                StimDesign(idx).onset(idx2)+StimDesign(1).dur(idx2); StimDesign(idx).onset(idx2)+StimDesign(1).dur(idx2)];
+        end
+    end
+    yd=[yd; 0];
+    xd=[xd; cTpt];
+    set(LineHandles.block(idx),'Ydata',yd*ymm,'Xdata',xd);
 end
 
 

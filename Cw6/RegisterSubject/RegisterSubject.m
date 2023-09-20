@@ -103,7 +103,7 @@ f=findobj('tag','RegSubject');
 if(isempty(f))
     return
 end
-handles=guidata(f(1));
+handles=guidata(max(f));
 
 ExtraHandles=get(handles.uipanel2,'UserData');
 LocalDir=ExtraHandles.Investigators_ComboBox.SelectedItem;
@@ -159,7 +159,7 @@ f=findobj('tag','RegSubject');
 if(isempty(f))
     return
 end
-handles=guidata(f(1));
+handles=guidata(max(f));
 
 ExtraHandles=get(handles.uipanel2,'UserData');
 

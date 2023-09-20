@@ -1,0 +1,23 @@
+Cw6 MINI Changelog
+
+% ---------------------------------------------
+1) Added variation of if-statement
+
+if(Idx>2)
+    Idx=Idx+14;
+end
+
+to the following functions:
+
+getgain.m
+setgain.m
+
+% ---------------------------------------------
+2) Added case 
+
+case('CW6MINI');
+        device.system=CW6MINISystem;
+        device.name='cw6mini';
+
+to @TechEnDAQ/TechEnDAQ.m
+
